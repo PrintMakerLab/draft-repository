@@ -7,7 +7,6 @@
 [![Badge Downloads]](https://github.com/PrintMakerLab/draft-repository/releases/latest)
 
 [![Button Report]][Report]
-[![Button Localize]][Localize]
 
 </div>
 <br>
@@ -17,21 +16,17 @@
 Draft repository is a community project. We invite your participation through issues
 and pull requests! You can peruse the [contributing guidelines][Contributing].
 
-If you intend on reporting or contributing a fix related to security vulnerabilities, please first refer to our [security policy][security].
-
-
 ## Developer Certificate of Origin (DCO) 
 
 Please checkout the Developer Certificate of Origin (DCO) and sign-off all you commits before sending pull requests. For any code changes to be accepted, the DCO must be signed.
 
-To sign-off commits see this guide.
+To sign-off commits see this[this guide][HOWTO].
 
 <!----------------------------------------------------------------------------->
 
 [Contributors]: https://github.com/PrintMakerLab/draft-repository/graphs/contributors
 [Contributing]: https://github.com/PrintMakerLab/.github/blob/main/CONTRIBUTING.md
-[security]: https://github.com/PrintMakerLab/.github/blob/main/SECURITY.md
-[Localize]: https://github.com/PrintMakerLabdraft-repository/wiki/Automatic-Translation
+[HOWTO]: https://github.com/PrintMakerLab/.github/blob/main//how_to_sign-off_commits.md
 [License]: LICENSE
 [Report]: https://github.com/PrintMakerLab/draft-repository/issues/new/choose
 
@@ -43,6 +38,4 @@ To sign-off commits see this guide.
 
 <!---------------------------------[ Buttons ]--------------------------------->
 
-[Button Localize]: https://img.shields.io/badge/Help_Localize-68BC71?style=for-the-badge&logoColor=white&logo=GoogleTranslate
 [Button Report]: https://img.shields.io/badge/Report_Issues-a1283D?style=for-the-badge&logoColor=white&logo=Cliqz
-[Button Question]: https://img.shields.io/badge/Ask_question-26A5E4?style=for-the-badge&logoColor=white&logo=telegram
