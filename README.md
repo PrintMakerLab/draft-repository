@@ -20,7 +20,7 @@ and pull requests! You can peruse the [contributing guidelines][Contributing].
 
 Please checkout the Developer Certificate of Origin (DCO) and sign-off all you commits before sending pull requests. For any code changes to be accepted, the DCO must be signed.
 
-To sign-off commits see this[this guide][HOWTO].
+To sign-off commits see this [this guide][HOWTO].
 
 <!----------------------------------------------------------------------------->
 
