@@ -52,4 +52,4 @@ jobs:
       - name: debug
         run: |
           echo "${{ toJson(github.event.pull_request.labels) }}"
-          echo "${{ toJson(github.event.pull_request.labels.*.names) }}"
+          echo "${{ github.event.pull_request.labels.length  }}"
