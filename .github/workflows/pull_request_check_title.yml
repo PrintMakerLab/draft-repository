@@ -43,9 +43,13 @@ jobs:
           # This example ensures the subject doesn't start with an uppercase character, and no dot (.) at the end
           subjectPattern: ^(?![A-Z])(?!.*[.]$)
           subjectPatternError: |
-            The subject "{subject}" found in the pull request title "{title}"
-            didn't match the configured pattern. Please ensure that the subject
-            doesn't start with an uppercase character, and no dot (.) at the end.
+            The Pull request title didn't match the configured pattern. 
+            Please ensure that the summary doesn't start with:
+            * an uppercase character
+            * no dot (.) at the end.
+            
+            Current summary: 
+            "{subject}"
           # If the PR only contains a single commit, the action will validate that
           # it matches the configured pattern.
           validateSingleCommit: true
