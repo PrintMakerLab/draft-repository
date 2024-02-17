@@ -8,9 +8,6 @@ on:
     types:
       - opened
       - reopened
-      - edited
-      - synchronize
-      - unlabeled
 
 permissions:
   contents: read
@@ -20,14 +17,13 @@ jobs:
   label:
     runs-on: ubuntu-latest
     steps:
-
       - name: Generate token
         uses: tibdex/github-app-token@v2.1.0
         id: generate_token
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
+          
       - name: "Apply label"
         if: github.event.pull_request.labels.length == 0
         uses: bcoe/conventional-release-labels@v1.3.1
