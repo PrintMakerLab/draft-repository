@@ -45,9 +45,9 @@ jobs:
           subjectPatternError: |
             The Pull request title didn't match the configured pattern. 
             Please ensure that the summary doesn't start with:
-            * an uppercase character
-            * no dot (.) at the end.
-            
+              - an uppercase character
+              - no dot (.) at the end.
+
             Current summary: 
             "{subject}"
           # If the PR only contains a single commit, the action will validate that
