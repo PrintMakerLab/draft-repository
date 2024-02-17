@@ -5,7 +5,7 @@ concurrency:
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, reopened]
 
 permissions:
   contents: read
@@ -48,8 +48,3 @@ jobs:
             }
           # Do not ignore any labels (default ignores chore:)
           ignored_types: '[]'
-
-      - name: debug
-        run: |
-          echo "${{ toJson(github.event.pull_request.labels).length  }}"
-          echo "${{ (toJson(github.event.pull_request.labels)).length  }}"
