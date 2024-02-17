@@ -37,7 +37,7 @@ jobs:
               "style": "pull request: maintenance",
               "translation": "pull request: translation",
               "docs": "pull request: documentation",
-              "revert": "pull request: skip-changelog",
+              "revert": "pull request: skip-changelog"
             }
           # Do not ignore any labels (default ignores chore:)
           ignored_types: '[]'
