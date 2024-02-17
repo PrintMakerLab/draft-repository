@@ -4,11 +4,8 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  pull_request:
-    types:
-      - opened
-      - edited
-      - reopened
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
 
 permissions:
   contents: read
@@ -16,8 +13,14 @@ permissions:
 
 jobs:
   label:
+    if: github.event.pull_request.labels.length == 0
     runs-on: ubuntu-latest
     steps:
+      - name: "Confirm correct pull request title"
+        uses: mmubeen/action-pr-title@master  # until PR gets merged https://github.com/deepakputhraya/action-pr-title/pull/29
+        with:
+          allowed_prefixes: 'feat,fix,build,ci,refactor,test,style,translation,docs,revert'
+
       - name: Generate token
         uses: tibdex/github-app-token@v2.1.0
         id: generate_token
@@ -26,7 +29,6 @@ jobs:
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
           
       - name: "Apply label"
-        if: github.event.pull_request.labels.length == 0
         uses: bcoe/conventional-release-labels@v1.3.1
         with:          
           token: ${{ steps.generate_token.outputs.token }}
@@ -46,3 +48,8 @@ jobs:
             }
           # Do not ignore any labels (default ignores chore:)
           ignored_types: '[]'
+
+      - name: debug
+        run: |
+          echo "${{ toJson(github.event.pull_request.labels) }}"
+          echo "${{ toJson(github.event.pull_request.labels.*.names) }}"
