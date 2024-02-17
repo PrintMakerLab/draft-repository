@@ -41,7 +41,7 @@ jobs:
           requireScope: false
           # Configure additional validation for the subject based on a regex.
           # This example ensures the subject doesn't start with an uppercase character, and no dot (.) at the end
-          subjectPattern: ^(?![A-Z])(?!.*[.]$)
+          subjectPattern: ^[^A-Z].*[^.]$
           subjectPatternError: |
             The Pull request title didn't match the configured pattern. 
             Please ensure that the summary:
