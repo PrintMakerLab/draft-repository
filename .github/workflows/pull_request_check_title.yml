@@ -35,6 +35,7 @@ jobs:
             test
             style
             revert
+            translation
           # Configure that a scope is optional.
           requireScope: false
           # Configure additional validation for the subject based on a regex.
