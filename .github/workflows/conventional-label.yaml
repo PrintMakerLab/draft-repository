@@ -1,14 +1,19 @@
+name: 🏷 Label PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request_target:
-    types: [ opened, edited ]
-name: conventional-release-labels
+    types: [ opened, edited, synchronize, reopened, unlabeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   label:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: write
-      pull-requests: write
     steps:
       - name: "Apply label"
         if: github.event.pull_request.labels.length == 0
@@ -16,14 +21,14 @@ jobs:
         with:
           type_labels: |
               {
-              "feat": "pull request: feature-minor"
-              "fix": "pull request: bug"
-              "build": "pull request: maintenance"
-              "ci": "pull request: maintenance"
-              "refactor": "pull request: maintenance"
-              "test": "pull request: maintenance"
-              "style": "pull request: maintenance"
-              "translation": "pull request: translation"
-              "docs": "pull request: documentation"
-              "revert": "pull request: skip-changelog"
+                "feat": "pull request: feature-minor"
+                "fix": "pull request: bug"
+                "build": "pull request: maintenance"
+                "ci": "pull request: maintenance"
+                "refactor": "pull request: maintenance"
+                "test": "pull request: maintenance"
+                "style": "pull request: maintenance"
+                "translation": "pull request: translation"
+                "docs": "pull request: documentation"
+                "revert": "pull request: skip-changelog"
               }
