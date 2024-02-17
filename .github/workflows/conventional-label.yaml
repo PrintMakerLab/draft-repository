@@ -1,0 +1,29 @@
+on:
+  pull_request_target:
+    types: [ opened, edited ]
+name: conventional-release-labels
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: "Apply label"
+        if: github.event.pull_request.labels.length == 0
+        uses: bcoe/conventional-release-labels@v1.3.1
+        with:
+          type_labels: |
+              {
+              "feat": "pull request: feature-minor"
+              "fix": "pull request: bug"
+              "build": "pull request: maintenance"
+              "ci": "pull request: maintenance"
+              "refactor": "pull request: maintenance"
+              "test": "pull request: maintenance"
+              "style": "pull request: maintenance"
+              "translation": "pull request: translation"
+              "docs": "pull request: documentation"
+              "revert": "pull request: skip-changelog"
+              }
