@@ -25,15 +25,15 @@ jobs:
         uses: bcoe/conventional-release-labels@v1.3.1
         with:
           type_labels: |
-              {
-                "feat": "pull request: feature-minor"
-                "fix": "pull request: bug"
-                "build": "pull request: maintenance"
-                "ci": "pull request: maintenance"
-                "refactor": "pull request: maintenance"
-                "test": "pull request: maintenance"
-                "style": "pull request: maintenance"
-                "translation": "pull request: translation"
-                "docs": "pull request: documentation"
-                "revert": "pull request: skip-changelog"
-              }
+            {
+              "feat": "pull request: feature-minor"
+              "fix": "pull request: bug"
+              "build": "pull request: maintenance"
+              "ci": "pull request: maintenance"
+              "refactor": "pull request: maintenance"
+              "test": "pull request: maintenance"
+              "style": "pull request: maintenance"
+              "translation": "pull request: translation"
+              "docs": "pull request: documentation"
+              "revert": "pull request: skip-changelog"
+            }
