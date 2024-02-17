@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   label:
-    if: github.event.pull_request.labels.length == 0
+    if: toJson(github.event.pull_request.labels).length == 0
     runs-on: ubuntu-latest
     steps:
       - name: "Confirm correct pull request title"
@@ -48,8 +48,3 @@ jobs:
             }
           # Do not ignore any labels (default ignores chore:)
           ignored_types: '[]'
-
-      - name: debug
-        run: |
-          echo "${{ toJson(github.event.pull_request.labels) }}"
-          echo "${{ github.event.pull_request.labels.length  }}"
