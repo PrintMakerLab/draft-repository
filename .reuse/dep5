@@ -11,8 +11,8 @@ Source: https://github.com/PrintMakerLab/draft-repository
 
 # Workflows and etc
 Files: 
-  .github/**/*.yml
   .github/*.yml
+  .github/**/*.yml
   .github/CODEOWNERS
   .github/workflows/conventional-label.yaml
 Copyright: 2024 Print Maker Lab

@@ -18,6 +18,8 @@ jobs:
     - name: REUSE Compliance Check
       uses: fsfe/reuse-action@v2
       id: lint_file_headers
+      with:
+        args: lint --json --suppress-deprecation
 
     - name: debug
       if: ${{ always() }}
