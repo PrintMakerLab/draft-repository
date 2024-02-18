@@ -3,12 +3,12 @@ header:
     spdx-id: GPL-3.0-or-later
     copyright-owner: Print Maker Lab
     content: |
-      Copyright: 2024 Print Maker Lab
-      Released under the terms of the GPLv3 or higher.
-
+      SPDX-FileCopyrightText: Copyright 2024 Print Maker Lab
+      SPDX-License-Identifier: GPL-3.0-or-later
   paths-ignore:
     - '.github/*'
     - '**/*.json'
+    - '**/*.md'
     - '**/*.yml'
     - '**/*.yaml'
     - '**/build'
@@ -21,5 +21,13 @@ header:
     - 'LICENSE'
     - 'yarn.lock'
     - '**/.*'
-
   comment: always
+  language:
+    Typescript:
+      extensions:
+        - ".ts"
+        - ".d.ts"
+      filenames:
+        - "*.ts"
+        - "*.d.ts"
+      comment_style_id: DoubleSlash
