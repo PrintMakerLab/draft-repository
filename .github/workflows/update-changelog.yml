@@ -54,7 +54,7 @@ jobs:
         with:
           author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           signoff: true
-          branch: 'changelog/${{ github.event.release.name }}'
+          branch: 'docs/update-changelog-${{ github.event.release.name }}'
           commit-message: 'docs(changelog): update changelog'
           delete-branch: true
           title: 'docs(changelog): update changelog'
