@@ -12,7 +12,7 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
-        
+
 jobs:
   check_pull_request_labels:
     name: "Check pull request labels"
@@ -21,6 +21,9 @@ jobs:
       issues: write
       pull-requests: write
     steps:
+      - name: Sleep for 15 seconds
+        run: sleep 15s
+        shell: bash
       - uses: mheap/github-action-required-labels@v5
         with:
           mode: "exactly"
@@ -35,6 +38,9 @@ jobs:
       issues: write
       pull-requests: write
     steps:
+      - name: Sleep for 15 seconds
+        run: sleep 15s
+        shell: bash
       - uses: mheap/github-action-required-labels@v5
         with:
           mode: "exactly"
