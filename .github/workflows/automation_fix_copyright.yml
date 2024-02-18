@@ -1,9 +1,5 @@
 name: Automation Copyright & Licenses
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: true
-
 on:
   workflow_dispatch:
 
@@ -19,23 +15,16 @@ jobs:
     - name: Checkout  
       uses: actions/checkout@v4
 
-    - name: Generate token
-      uses: tibdex/github-app-token@v2.1.0
-      id: generate_token
-      with:
-        app_id: ${{ secrets.APP_ID }}
-        private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
     - name: Validate License Header        
       uses: apache/skywalking-eyes@v0.5.0
       id: lint_file_headers
       with:
-        token: ${{ steps.generate_token.outputs.token }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         mode: fix
     - name: Apply Changes
       uses: EndBug/add-and-commit@v9.1.4
       env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         commit: --signoff
         author_name: Pavel Polyakov
