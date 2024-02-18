@@ -1,0 +1,23 @@
+header:
+  license:
+    spdx-id: GPL-3.0-or-later
+    copyright-owner: Print Maker Lab
+    content: |
+      Copyright: 2024 Print Maker Lab
+      Released under the terms of the GPLv3 or higher.
+  paths-ignore:
+    - '**/*.json'
+    - '**/*.md'
+    - '**/*.yml'
+    - '**/*.yaml'
+    - '**/build'
+    - '**/lib'
+    - '**/node_modules'
+    - '**/schemas'
+    - '*.map.js'
+    - '*.bundle.js'
+    - 'coverage'
+    - 'LICENSE'
+    - 'yarn.lock'
+    - '**/.*'
+  comment: on-failure

@@ -1,0 +1,53 @@
+name: Copyright & Licenses
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  # pull_request_target:
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+  licenses:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Validate License Header        
+      uses: apache/skywalking-eyes/header@e19b828cea6a6027cceae78f05d81317347d21be
+      id: lint_file_headers
+
+    - name: debug
+      if: ${{ always() }}
+      run: |
+        echo "${{ toJson(steps.lint_file_headers)  }}"
+
+    # - uses: marocchino/sticky-pull-request-comment@v2.9.0
+    #   # When the previous steps fails, the workflow would stop. By adding this
+    #   # condition you can continue the execution with the populated error message.
+    #   if: ${{ always() }}
+    #   with:
+    #     header: ${{ github.job }}
+    #     message: |
+    #       👋 Hey there
+    #       ℹ️ Details:
+    #       ```
+          
+    #       ${{ steps.lint_file_headers.outputs.error_message || 'Everything is OK!' }}
+
+    #       ```
+     
+    #   # Delete a previous comment when the issue has been resolved
+    # - if: ${{ always() && steps.lint_pr_title.outputs.error_message == null }}
+    #   uses: marocchino/sticky-pull-request-comment@v2.9.0
+    #   with:
+    #     header: ${{ github.job }}
+    #     delete: true
+    #     ignore_empty: false
