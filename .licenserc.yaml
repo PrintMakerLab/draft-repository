@@ -5,7 +5,9 @@ header:
     content: |
       Copyright: 2024 Print Maker Lab
       Released under the terms of the GPLv3 or higher.
+
   paths-ignore:
+    - '.github/*'
     - '**/*.json'
     - '**/*.md'
     - '**/*.yml'
@@ -20,4 +22,5 @@ header:
     - 'LICENSE'
     - 'yarn.lock'
     - '**/.*'
-  comment: on-failure
+
+  comment: always
