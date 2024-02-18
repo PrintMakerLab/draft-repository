@@ -23,6 +23,12 @@ header:
     - '**/.*'
   comment: always
   language:
+    Python:
+      extensions:
+        - ".py"
+      filenames:
+        - "*.py"
+      comment_style_id: PythonStyle
     Typescript:
       extensions:
         - ".ts"
@@ -31,3 +37,19 @@ header:
         - "*.ts"
         - "*.d.ts"
       comment_style_id: DoubleSlash
+    Html:
+      extensions:
+        - ".html"
+        - ".htm"
+      filenames:
+        - "*.html"
+        - "*.htm"
+      comment_style_id: AngleBracket
+    Scss:
+      extensions:
+        - ".scss"
+        - ".css"
+      filenames:
+        - "*.scss"
+        - "*.css"
+      comment_style_id: Hashtag
