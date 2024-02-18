@@ -16,15 +16,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: REUSE Compliance Check
-      uses: fsfe/reuse-action@v2
+      uses: dev-build-deploy/reuse-me@v0
       id: lint_file_headers
-      with:
-        args: --suppress-deprecation lint --json
 
     - name: debug
       if: ${{ always() }}
       run: |
-        echo "${{ toJson(steps.lint_file_headers.outputs)  }}"
+        echo "${{ toJson(steps.lint_file_headers)  }}"
 
     - uses: marocchino/sticky-pull-request-comment@v2.9.0
       # When the previous steps fails, the workflow would stop. By adding this
