@@ -1,7 +1,7 @@
 name: Add Pull Request To Project
 on:
   pull_request:
-    types: [opened, reopened, labeled]
+    types: [opened, reopened]
   workflow_call:
     secrets:
       ADD_TO_PROJECT_PAT:
