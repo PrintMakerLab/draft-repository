@@ -24,6 +24,11 @@ jobs:
       uses: fsfe/reuse-action@v2
       id: lint_file_headers
 
+    - name: debug
+      if: ${{ always() }}
+      run: |
+        echo "${{ toJson(steps.lint_file_headers.outputs)  }}"
+
     - uses: marocchino/sticky-pull-request-comment@v2.9.0
       # When the previous steps fails, the workflow would stop. By adding this
       # condition you can continue the execution with the populated error message.
@@ -34,7 +39,9 @@ jobs:
           👋 Hey there
           ℹ️ Details:
           ```
-          ${{ steps.lint_file_headers.outputs || 'Everything is OK!' }}
+          ${{ steps.lint_file_headers.outputs.error_message || 'Everything is OK!' }}
+
+          ${{ steps.lint_file_headers.outputs.warning_message || 'Everything is OK!' }}
             ```
      
       # Delete a previous comment when the issue has been resolved
