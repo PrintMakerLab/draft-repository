@@ -19,7 +19,7 @@ jobs:
       uses: fsfe/reuse-action@v2
       id: lint_file_headers
       with:
-        args: lint --json --suppress-deprecation
+        args: --suppress-deprecation lint --json
 
     - name: debug
       if: ${{ always() }}
