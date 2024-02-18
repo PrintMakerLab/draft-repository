@@ -4,6 +4,7 @@ on:
   release:
     types: 
       - released
+  workflow_dispatch:
 
 jobs:
   update:
@@ -39,6 +40,7 @@ jobs:
           release-date: ${{ steps.release_date.outputs.date }}
           release-notes: ${{ github.event.release.body }}
           latest-version: ${{ github.event.release.name }}
+          parse-github-usernames: true
 
       - name: Generate token
         uses: tibdex/github-app-token@v2.1.0
