@@ -1,0 +1,47 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Print Maker Lab
+Upstream-Contact: Pavel Poliakov <djeredian@gmail.com>
+Source: https://github.com/PrintMakerLab/draft-repository
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
+
+# Workflows and etc
+Files: .github/**/*.yml
+Copyright: 2024 Print Maker Lab
+License: Apache-2.0
+
+# Documentation of Print Maker Lab
+Files:
+    docs/*
+    README.md
+    CONTRIBUTING.md
+    CHANGELOG.md
+Copyright: 2024 Print Maker Lab
+License: GFDL-1.3-or-later
+
+
+# Configuration and inner files
+Files: 
+    .gitignore 
+    **/*/.gitignore 
+    .gitmodules 
+    .gitattributes 
+    .git-blame-ignore-revs 
+    .editorconfig
+    package*.json
+    tsconfig.json
+    .prettierrc.json
+Copyright: 2024 Print Maker Lab
+License: Apache-2.0
+
+# Source code of the Print Maker Lab project
+# Files:
+#     .ts
+#     .py
+#     .css
+# Copyright: 2024 Print Maker Lab
+# License: GFDL-1.3-or-later
