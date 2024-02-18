@@ -10,9 +10,14 @@ Source: https://github.com/PrintMakerLab/draft-repository
 # License: ...
 
 # Workflows and etc
-Files: .github/**/*.yml
+Files: 
+    .github/**/*.yml
+    .github/*.yml
 Copyright: 2024 Print Maker Lab
 License: Apache-2.0
+
+#.github/CODEOWNERS
+#.github/workflows/conventional-label.yaml
 
 # Documentation of Print Maker Lab
 Files:
