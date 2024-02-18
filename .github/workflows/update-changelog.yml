@@ -4,7 +4,6 @@ on:
   release:
     types: 
       - released
-  workflow_dispatch:
 
 jobs:
   update:
@@ -52,7 +51,6 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6.0.0
         with:
-          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           signoff: true
           branch: 'docs/update-changelog-${{ github.event.release.name }}'
           commit-message: 'docs(changelog): update changelog'
@@ -64,4 +62,4 @@ jobs:
             pull request: documentation
             pull request: skip-changelog
           body: |
-            Automated changelog PR for release:${{ github.event.release.name }}
+            Automated changelog PR for release: `${{ github.event.release.name }}`
