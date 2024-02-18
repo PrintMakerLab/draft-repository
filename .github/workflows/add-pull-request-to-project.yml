@@ -1,6 +1,6 @@
 name: Add Pull Request To Project
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, reopened]
   workflow_call:
     secrets:
