@@ -1,4 +1,4 @@
-name: Project Automation/Issue
+name: Project Automation / Issue
 on:
   issues:
     types: [opened, reopened, labeled]
