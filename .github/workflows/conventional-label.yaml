@@ -1,4 +1,4 @@
-name: 🏷 Label PR
+name: "Pull request / Labels "
 
 on:
   pull_request_target:
@@ -19,6 +19,7 @@ permissions:
 jobs:
   label:
     if: github.event.pull_request.labels[0] == null
+    name: "Assign labels"
     runs-on: ubuntu-latest
     steps:
       - name: Generate token

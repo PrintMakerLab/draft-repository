@@ -1,4 +1,4 @@
-name: "Pull Request Labels Validation"
+name: "Pull request / Validation / Labels"
 
 on:
   pull_request_target:
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   check_pull_request_labels:
-    name: "Check pull request labels"
+    name: "Required labels"
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -39,7 +39,7 @@ jobs:
           add_comment: true
           message: "This PR is being prevented from merging because you have added more than one `pull request:` label. You'll need to keep only one of them before this PR can be merged."
   check_issue_labels:
-    name: "Check issue labels"
+    name: "Redudant labels"
     runs-on: ubuntu-latest
     permissions:
       issues: write
