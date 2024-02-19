@@ -5,9 +5,6 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types:
       - opened
@@ -51,15 +48,17 @@ jobs:
     if: contains('["Jeredian","Elkin-Vasily","GudwinTheGreat"]', github.actor)
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout  
-      uses: actions/checkout@v4
-    
     - name: Generate token
       uses: tibdex/github-app-token@v2.1.0
       id: generate_token
       with:
         app_id: ${{ secrets.APP_ID }}
         private_key: ${{ secrets.APP_PRIVATE_KEY }}
+    
+    - name: Checkout  
+      uses: actions/checkout@v4
+      with:
+        token: ${{ steps.generate_token.outputs.token }}
 
     - name: Validate License Header        
       uses: apache/skywalking-eyes@v0.5.0
@@ -70,15 +69,14 @@ jobs:
 
     - name: Apply Changes
       uses: stefanzweifel/git-auto-commit-action@v5.0.0
+      id: auto-commit-action
       with:
         github_token: ${{ steps.generate_token.outputs.token }}
         commit_options: '--signoff'
         commit_user_name: Print Maker Lab Bot
-        commit_user_email: djeredian@gmail.com
-        commit_author: Print Maker Lab Bot <djeredian@gmail.com>
         message: 'refactor: automatic updating of file headers'
 
-    - name: Create commit comment
+    - name: Add commit comment
       if: steps.auto-commit-action.outputs.changes_detected == 'true'
       uses: peter-evans/commit-comment@v3
       with:
