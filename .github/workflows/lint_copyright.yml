@@ -76,10 +76,11 @@ jobs:
         commit_user_name: Print Maker Lab Bot
         message: 'refactor: automatic updating of file headers'
 
-    - name: Add commit comment
+    - name: Add new comment
       if: steps.auto-commit-action.outputs.changes_detected == 'true'
-      uses: peter-evans/commit-comment@v3
+      uses: peter-evans/create-or-update-comment@v4.0.0
       with:
+        token: ${{ steps.generate_token.outputs.token }}
         body: |
           👋 Hey there
           Print Maker Lab Bot, just updated your files with the correct license headers.
