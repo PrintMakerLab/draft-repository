@@ -80,6 +80,8 @@ jobs:
       if: steps.auto-commit-action.outputs.changes_detected == 'true'
       uses: peter-evans/create-or-update-comment@v4.0.0
       with:
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-author: 'Print Maker Lab [bot]'
         token: ${{ steps.generate_token.outputs.token }}
         body: |
           👋 Hey there
