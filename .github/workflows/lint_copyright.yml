@@ -28,7 +28,7 @@ permissions:
 jobs:
 # validate file headers for all conributers except org members
   validate_licenses:
-    if: "!contains('[Jeredian,Elkin-Vasily,GudwinTheGreat]', github.actor)"
+    if: ${{ !contains('["Jeredian","Elkin-Vasily","GudwinTheGreat"]', github.actor) }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout  
