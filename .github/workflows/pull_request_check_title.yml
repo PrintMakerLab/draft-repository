@@ -57,6 +57,7 @@ jobs:
         if: ${{ always() }}
         with:
           header: ${{ github.job }}
+          recreate: true
           message: |
             👋 Hey there and thank you for opening this pull request!
             We require pull request titles to follow the [Conventional Commits specification](https://github.com/PrintMakerLab/.github/blob/main/CONTRIBUTING.md#commit)
