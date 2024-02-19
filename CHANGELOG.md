@@ -5,11 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/PrintMakerLab/draft-repository/compare/0.1.1...HEAD)
+## [Unreleased](https://github.com/PrintMakerLab/draft-repository/compare/0.1.2...HEAD)
 
 <!-- Please do not update the unreleased notes. -->
-
 <!-- Content should be placed here -->
+## [0.1.2](https://github.com/PrintMakerLab/draft-repository/compare/0.1.1...0.1.2) - 2024-02-19
+
+### What's Changed
+
+#### Maintenance
+
+- ci: improve header validation workflow [@Jeredian](https://github.com/Jeredian) (#19)
+- ci: validate copyright in the file headers [@Jeredian](https://github.com/Jeredian) (#18)
+
+**Full Changelog**: https://github.com/PrintMakerLab/draft-repository/compare/0.1.1...0.1.2
+
 ## [0.1.1](https://github.com/PrintMakerLab/draft-repository/compare/0.1.0...0.1.1) - 2024-02-18
 
 ### What's Changed
