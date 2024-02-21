@@ -1,4 +1,4 @@
-name: Update Changelog
+name: "Documentation / Changelog"
 
 on:
   release:
@@ -17,6 +17,13 @@ jobs:
       contents: write
 
     steps:
+      - name: Generate token
+        uses: tibdex/github-app-token@v2.1.0
+        id: generate_token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -26,6 +33,7 @@ jobs:
           # Checkout target branch of this release. Ensures that the CHANGELOG
           # is not out of date.
           ref: ${{ github.event.release.target_commitish }}
+          token: ${{ steps.generate_token.outputs.token }}
 
       - name: Extract release date from git tag
         id: release_date
@@ -41,25 +49,21 @@ jobs:
           latest-version: ${{ github.event.release.name }}
           parse-github-usernames: true
 
-      - name: Generate token
-        uses: tibdex/github-app-token@v2.1.0
-        id: generate_token
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6.0.0
         with:
-          signoff: true
-          branch: 'docs/update-changelog-${{ github.event.release.name }}'
-          commit-message: 'docs(changelog): update changelog'
-          delete-branch: true
-          title: 'docs(changelog): update changelog'
           token: ${{ steps.generate_token.outputs.token }}
+          branch: 'docs/update-changelog-${{ github.event.release.name }}'
+          branch-suffix: short-commit-hash
+          delete-branch: true
           draft: false
+          committer: 'Print Maker Lab [bot] <831143+printmakerlab-bot[bot]@users.noreply.github.com>'
+          author: 'Print Maker Lab [bot]'
+          commit-message: 'docs(changelog): update changelog'
+          signoff: true
+          title: 'docs(changelog): update changelog'
+          body: |
+            Automated changelog PR for release: `${{ github.event.release.name }}`
           labels: |
             pull request: documentation
             pull request: skip-changelog
-          body: |
-            Automated changelog PR for release: `${{ github.event.release.name }}`

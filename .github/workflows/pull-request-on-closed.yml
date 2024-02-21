@@ -1,5 +1,5 @@
 # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#force-deleting-cache-entries
-name: Pull resquest closed
+name: "Pull resquest / On Close"
 on:
   pull_request_target:
     types:

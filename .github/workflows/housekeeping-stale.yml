@@ -1,4 +1,4 @@
-name: stale
+name: "Housekeeping / Stale"
 on:
   schedule:
     - cron: '0 8 * * *'

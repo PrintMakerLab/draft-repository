@@ -1,4 +1,4 @@
-name: Add Issue To Project
+name: Project Automation / Issue
 on:
   issues:
     types: [opened, reopened, labeled]

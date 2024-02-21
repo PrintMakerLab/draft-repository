@@ -1,4 +1,4 @@
-name: Add Pull Request To Project
+name: Project Automation / Pull Request
 on:
   pull_request_target:
     types: [opened, reopened]
