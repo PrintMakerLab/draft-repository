@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   # example from Pull request / Validation / Copyright & Licenses
-  validate_licenses:
+  generate_token:
     if: ${{ !contains('["Jeredian","Elkin-Vasily","GudwinTheGreat"]', github.actor) }}
     name: "Validate"
     runs-on: ubuntu-latest
