@@ -1,0 +1,51 @@
+name: "Housekeeping / Lock Threads"
+
+# const's block
+# prs-commit-message: &prs-commit-message "Prs's commit message"
+# issues-commit-message: &issues-commit-message "Issues commit message"
+
+on:
+  schedule:
+    - cron: '0 5 * * MON'
+  workflow_dispatch:
+
+concurrency:
+  group: lock-threads
+  cancel-in-progress: true
+
+permissions:
+  issues: write  
+  discussions: write
+
+jobs:
+  # example from Pull request / Validation / Copyright & Licenses
+  validate_licenses:
+    if: ${{ !contains('["Jeredian","Elkin-Vasily","GudwinTheGreat"]', github.actor) }}
+    name: "Validate"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Generate token
+      uses: tibdex/github-app-token@v2.1.0
+      id: generate_token
+      with:
+        app_id: ${{ secrets.APP_ID }}
+        private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+  change_permissions:
+    name: "permissions"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Lock Outdated Threads"
+        uses: "dessant/lock-threads@v5.0.1"
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          process-only: 'issues, prs'
+          issue-inactive-days: 14
+          add-issue-labels: "status: outdated"
+          issue-lock-reason: "resolved"
+          issue-comment: "This issue is closed for editing because the last activity was more than 14 days ago."
+          pr-inactive-days: 14
+          add-pr-labels: "status: outdated"
+          pr-lock-reason: "resolved"
+          pr-comment: "This PR is closed for editing because the last activity was more than 14 days ago."
+          log-output: true         
