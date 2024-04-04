@@ -2,34 +2,31 @@ name: "Housekeeping / Lock Threads"
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '0 5 * * MON'
+  workflow_dispatch:
+    inputs: 
+      tags: 
+        description: 'Lock threads tag'
 
 concurrency:
-  group: lock-threads
+  group: housekeeping
   cancel-in-progress: true
 
 permissions:
   issues: write  
-  discussions: write
+  pull-requests: write
 
-jobs:
-  # example from Pull request / Validation / Copyright & Licenses
-  generate_token:
-    if: ${{ !contains('["Jeredian","Elkin-Vasily","GudwinTheGreat"]', github.actor) }}
-    name: "Validate"
-    runs-on: ubuntu-latest
-    steps:
-    - name: Generate token
-      uses: tibdex/github-app-token@v2.1.0
-      id: generate_token
-      with:
-        app_id: ${{ secrets.APP_ID }}
-        private_key: ${{ secrets.APP_PRIVATE_KEY }}
-
+jobs: 
   change_permissions:
     name: "permissions"
     runs-on: ubuntu-latest
     steps:
+      - name: Generate token
+        uses: tibdex/github-app-token@v2.1.0
+        id: generate_token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: "Lock Outdated Threads"
         uses: "dessant/lock-threads@v5.0.1"
         with:
@@ -37,8 +34,16 @@ jobs:
           process-only: 'issues, prs'
           issue-inactive-days: 14
           add-issue-labels: "status: outdated"
-          issue-comment: "This issue is closed for editing because the last activity was more than 14 days ago."
+          issue-comment: > 
+            This issue has been automatically locked since there
+            has not been any recent activity after it was closed.
+            Please open a new issue for related bugs.
+          issue-lock-reason: 'resolved'
           pr-inactive-days: 14
           add-pr-labels: "status: outdated"
-          pr-comment: "This PR is closed for editing because the last activity was more than 14 days ago."
+          pr-comment: >
+            This pull request has been automatically locked since there
+            has not been any recent activity after it was closed.
+            Please open a new issue for related bugs.
+          pr-lock-reason: 'resolved'
           log-output: true         
