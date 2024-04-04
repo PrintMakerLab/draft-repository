@@ -1,12 +1,8 @@
 name: "Housekeeping / Lock Threads"
 
-# const's block
-# prs-commit-message: &prs-commit-message "Prs's commit message"
-# issues-commit-message: &issues-commit-message "Issues commit message"
-
 on:
   schedule:
-    - cron: '0 5 * * MON'
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 concurrency:
