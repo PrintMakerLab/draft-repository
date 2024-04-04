@@ -3,7 +3,6 @@ name: "Housekeeping / Lock Threads"
 on:
   schedule:
     - cron: '*/15 * * * *'
-  workflow_dispatch:
 
 concurrency:
   group: lock-threads
