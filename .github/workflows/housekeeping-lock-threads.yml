@@ -2,7 +2,7 @@ name: "Housekeeping / Lock Threads"
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 concurrency:
@@ -38,10 +38,8 @@ jobs:
           process-only: 'issues, prs'
           issue-inactive-days: 14
           add-issue-labels: "status: outdated"
-          issue-lock-reason: "resolved"
           issue-comment: "This issue is closed for editing because the last activity was more than 14 days ago."
           pr-inactive-days: 14
           add-pr-labels: "status: outdated"
-          pr-lock-reason: "resolved"
           pr-comment: "This PR is closed for editing because the last activity was more than 14 days ago."
           log-output: true         
