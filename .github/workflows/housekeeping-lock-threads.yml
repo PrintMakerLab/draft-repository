@@ -1,0 +1,46 @@
+name: "Housekeeping / Lock Threads"
+
+on:
+  schedule:
+    - cron: '0 5 * * MON'
+  workflow_dispatch: # To allow manual runs
+
+concurrency:
+  group: housekeeping
+  cancel-in-progress: true
+
+permissions:
+  issues: write  
+  pull-requests: write
+
+jobs: 
+  lock-threads:
+    name: "Lock threads"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        uses: tibdex/github-app-token@v2.1.0
+        id: generate_token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: "Lock Outdated Threads"
+        uses: "dessant/lock-threads@v5.0.1"
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          process-only: 'issues, prs'
+          issue-inactive-days: 14
+          add-issue-labels: "status: outdated"
+          issue-comment: > 
+            This issue has been automatically locked since there
+            has not been any recent activity after it was closed.
+            Please open a new issue for related bugs.
+          issue-lock-reason: 'resolved'
+          pr-inactive-days: 14
+          add-pr-labels: "status: outdated"
+          pr-comment: >
+            This pull request has been automatically locked since there
+            has not been any recent activity after it was closed.
+            Please open a new issue for related bugs.
+          pr-lock-reason: 'resolved'
+          log-output: true         
