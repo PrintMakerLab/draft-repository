@@ -32,8 +32,8 @@ permissions:
   pull-requests: write
 
 jobs: 
-  change_permissions:
-    name: "permissions"
+  lock-threads:
+    name: "Lock threads"
     runs-on: ubuntu-latest
     steps:
       - name: Generate token
