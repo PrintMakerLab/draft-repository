@@ -20,6 +20,9 @@ jobs:
   check-conditions:
     name: "Check conditions"
     runs-on: ubuntu-latest
+    if: |
+      !github.event.issue.pull_request && 
+      github.event.issue.state == 'open'
     # Expose step outputs as job outputs
     outputs:
       has_need_response_labels: ${{ steps.check_labels.outputs.has_need_response_labels }}
@@ -46,7 +49,7 @@ jobs:
         name: 'author'
         env:
           owner_or_collaborator: ${{ github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'COLLABORATOR' }}
-          same_author: ${{ github.event.comment.author == github.event.issue.author }}
+          same_author: ${{ github.event.comment.user.id == github.event.issue.user.id }}
         shell: python
         run: |
           import os
@@ -63,9 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: 'check-conditions'
     if: |
-      !github.event.issue.pull_request && 
       needs.check-conditions.outputs.has_need_response_labels == 'true' && 
-      needs.check-conditions.outputs.same_author == 'true'
+      ( needs.check-conditions.outputs.same_author == 'true' || needs.check-conditions.outputs.owner_or_collaborator == 'false' )
     steps:
       - name: "Generate token"
         uses: tibdex/github-app-token@v2.1.0
@@ -120,7 +122,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: 'check-conditions'
     if: |
-      !github.event.issue.pull_request && 
       needs.check-conditions.outputs.has_pending_labels == 'true' && 
       needs.check-conditions.outputs.owner_or_collaborator == 'true'
     steps:
