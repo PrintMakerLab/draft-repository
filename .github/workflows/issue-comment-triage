@@ -1,0 +1,25 @@
+name: "Issue / Comment triage"
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+
+concurrency:
+  group: 'triage'
+
+jobs:
+  triage-commented-issue:
+    name: "On author comment"
+    runs-on: ubuntu-latest
+    if: |
+      !github.event.issue.pull_request
+      && ( contains(github.event.issue.labels.*.name, format('status{0} waiting response', ':')) 
+        || contains(github.event.issue.labels.*.name, format('status{0} needs more info', ':')) 
+      ) && github.event.author == github.event.issue.author
+    steps:
+      - name: Log github event
+        env:
+          $GITHUB_CONTEXT_LABELS: ${{ toJson(github.event.label) }}
+        run: echo "$GITHUB_CONTEXT_LABELS"
