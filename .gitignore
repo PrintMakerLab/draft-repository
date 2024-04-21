@@ -450,7 +450,8 @@ pids
 
 
 # System Files
-.DS_Store/
+.DS_Store
+**/.DS_Store
 
  nyc test coverage
 .nyc_output
