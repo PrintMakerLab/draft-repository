@@ -10,7 +10,7 @@ concurrency:
   group: 'triage'
 
 jobs:
-  triage-commented-issue:
+  triage-issue-commented-by-author:
     name: "On author comment"
     runs-on: ubuntu-latest
     if: |
@@ -18,6 +18,20 @@ jobs:
         contains(github.event.issue.labels.*.name, format('status{0} waiting response', ':')) || 
         contains(github.event.issue.labels.*.name, format('status{0} needs more info', ':'))
       ) && github.event.author == github.event.issue.author
+    steps:
+      - name: Log github event
+        env:
+          $GITHUB_CONTEXT_LABELS: ${{ toJson(github.event.label) }}
+        run: echo "$GITHUB_CONTEXT_LABELS"
+  triage-issue-commented-by-owner:
+    name: "On owner or collaborator comment"
+    runs-on: ubuntu-latest
+    if: |
+      github.event.issue.pull_request && 
+      contains(github.event.issue.labels.*.name, format('status{0} pending', ':')) && (
+        github.event.comment.author_association == 'OWNER' ||
+        github.event.comment.author_association == 'COLLABORATOR'
+      )
     steps:
       - name: Log github event
         env:
