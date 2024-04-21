@@ -14,9 +14,9 @@ jobs:
     name: "On author comment"
     runs-on: ubuntu-latest
     if: |
-      github.event.issue.pull_request
-      && ( contains(github.event.issue.labels.*.name, format('status{0} waiting response', ':')) 
-        || contains(github.event.issue.labels.*.name, format('status{0} needs more info', ':')) 
+      github.event.issue.pull_request && ( 
+        contains(github.event.issue.labels.*.name, format('status{0} waiting response', ':')) || 
+        contains(github.event.issue.labels.*.name, format('status{0} needs more info', ':'))
       ) && github.event.author == github.event.issue.author
     steps:
       - name: Log github event
