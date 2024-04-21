@@ -11,31 +11,145 @@ permissions:
 concurrency:
   group: 'triage'
 
+env:
+  label_needs_more_info: ${{ format('status{0} needs more info', ':')}}
+  label_waiting_response: ${{ format('status{0} waiting response', ':')}}
+  label_pending: ${{ format('status{0} pending', ':')}}
+
 jobs:
+  check-conditions:
+    name: "Check conditions"
+    runs-on: ubuntu-latest
+    # Expose step outputs as job outputs
+    outputs:
+      has_need_response_labels: ${{ steps.check_labels.outputs.has_need_response_labels }}
+      has_pending_labels: ${{ steps.check_labels.outputs.has_pending_labels }}
+      owner_or_collaborator: ${{ steps.check_author.outputs.owner_or_collaborator }}
+      same_author: ${{ steps.check_author.outputs.same_author }}
+    steps:
+      - id: check_labels
+        name: 'labels'
+        env:
+          has_need_response_labels: ${{ contains(github.event.issue.labels.*.name, env.label_waiting_response) || contains(github.event.issue.labels.*.name, env.label_needs_more_info) }}
+          has_pending_labels: ${{ contains(github.event.issue.labels.*.name, env.label_pending) }}
+        shell: python
+        run: |
+          import os
+
+          def set_output(name, value):
+            with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              print(f'{name}={value}', file=fh)
+
+          set_output('has_need_response_labels',os.getenv('has_need_response_labels'))
+          set_output('has_pending_labels',os.getenv('has_pending_labels'))
+      - id: check_author
+        name: 'author'
+        env:
+          owner_or_collaborator: ${{ github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'COLLABORATOR' }}
+          same_author: ${{ github.event.comment.author == github.event.issue.author }}
+        shell: python
+        run: |
+          import os
+
+          def set_output(name, value):
+            with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              print(f'{name}={value}', file=fh)     
+          
+          set_output('owner_or_collaborator',os.getenv('owner_or_collaborator'))
+          set_output('same_author',os.getenv('same_author'))
+
   triage-issue-commented-by-author:
     name: "On author comment"
     runs-on: ubuntu-latest
+    needs: 'check-conditions'
     if: |
-      github.event.issue.pull_request && ( 
-        contains(github.event.issue.labels.*.name, format('status{0} waiting response', ':')) || 
-        contains(github.event.issue.labels.*.name, format('status{0} needs more info', ':'))
-      ) && github.event.author == github.event.issue.author
+      !github.event.issue.pull_request && 
+      needs.check-conditions.outputs.has_need_response_labels == 'true' && 
+      needs.check-conditions.outputs.same_author == 'true'
     steps:
-      - name: Log github event
-        env:
-          $GITHUB_CONTEXT_LABELS: ${{ toJson(github.event.label) }}
-        run: echo "$GITHUB_CONTEXT_LABELS"
+      - name: "Generate token"
+        uses: tibdex/github-app-token@v2.1.0
+        id: generate_token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: "Remove labels"
+        uses: actions/github-script@v7.0.1
+        continue-on-error: true
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            for (const label of [process.env.label_needs_more_info, process.env.label_waiting_response]) {
+              github.rest.issues.removeLabel({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: [label]
+              });
+            }
+      - name: "Add labels"
+        uses: actions/github-script@v7.0.1
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: [process.env.label_pending]
+            });
+      - name: "Add comment"
+        uses: actions/github-script@v7.0.1
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            const commentText = `**Thank you for your answer.**
+            Your message will be reviewed shortly by the Print Maker Lab team.
+
+            _Please make sure, that you described everything in details so we can help you as soon as possible._`
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentText
+            });
+
   triage-issue-commented-by-owner:
     name: "On owner or collaborator comment"
     runs-on: ubuntu-latest
+    needs: 'check-conditions'
     if: |
-      github.event.issue.pull_request && 
-      contains(github.event.issue.labels.*.name, format('status{0} pending', ':')) && (
-        github.event.comment.author_association == 'OWNER' ||
-        github.event.comment.author_association == 'COLLABORATOR'
-      )
+      !github.event.issue.pull_request && 
+      needs.check-conditions.outputs.has_pending_labels == 'true' && 
+      needs.check-conditions.outputs.owner_or_collaborator == 'true'
     steps:
-      - name: Log github event
-        env:
-          $GITHUB_CONTEXT_LABELS: ${{ toJson(github.event.label) }}
-        run: echo "$GITHUB_CONTEXT_LABELS"
+      - name: "Generate token"
+        uses: tibdex/github-app-token@v2.1.0
+        id: generate_token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: "Remove labels"
+        uses: actions/github-script@v7.0.1
+        continue-on-error: true
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            github.rest.issues.removeLabel({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: [process.env.label_pending]
+            });
+      - name: "Add labels"
+        uses: actions/github-script@v7.0.1
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: [process.env.label_needs_more_info, process.env.label_waiting_response]
+            });
