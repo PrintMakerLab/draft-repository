@@ -1,0 +1,52 @@
+name: "Issue / Blank issue triage"
+on:
+  issues:
+    types: [opened, reopened]
+
+permissions:
+  issues: write
+
+concurrency:
+  group: 'triage'
+
+jobs:
+  add-comment-to-blank-issue:    
+    name: "On blank issue"
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.issue.labels.*.name, format('status{0} pending', ':')) }}
+    steps:
+      - name: "Generate token"
+        uses: tibdex/github-app-token@v2.1.0
+        id: generate_token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: "Add labels"
+        uses: actions/github-script@v7.0.1
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['status: pending']
+            });
+      - name: "Add comment"
+        uses: actions/github-script@v7.0.1
+        env: 
+          is_reopened: ${{ github.event.action == 'reopened' }}
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            const target = process.env.is_reopened ? 'reopening an': 'submitting a new'
+            const commentText = `**Thank you for ${target} issue.**
+            It will be reviewed shortly by the Print Maker Lab team.
+            
+            _Please make sure, that you described everything in details so we can help you as soon as possible._`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentText
+            });
