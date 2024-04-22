@@ -23,11 +23,16 @@ jobs:
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
+            const comment = `**Thank you for submitting a feature request.**
+            Your proposal is open and will soon be reviewed by the Print Maker Lab team.
+            
+            _If your proposal is accepted and the Print Maker Lab team has bandwidth they will take on the issue, or else request you or other volunteers from the community to work on this issue._`
+            
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Thank you for submitting a feature request. Your proposal is open and will soon be reviewed by the Print Maker Lab team.<br><br>If your proposal is accepted and the Print Maker Lab team has bandwidth they will take on the issue, or else request you or other volunteers from the community to work on this issue.'
+              body: comment
             })
   add-comment-to-bug:
     name: "On bug report"
@@ -45,11 +50,16 @@ jobs:
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
+            const comment = `**Thank you for submitting a bug report.**
+            Your message will be reviewed shortly by the Print Maker Lab team.
+            
+            _If your request is reproducible and the Print Maker Lab team has the bandwidth, they will look into it, or ask you or other community volunteers to work on it._`
+            
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Thank you for submitting a bug report. Your message will be reviewed shortly by the Print Maker Lab team.<br><br>If your request is reproducible and the Print Maker Lab team has the bandwidth, they will look into it, or ask you or other community volunteers to work on it.'
+              body: comment
             })
   add-comment-to-question:
     name: "On question"
@@ -67,9 +77,11 @@ jobs:
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
+            const comment = `**Thank you for submitting your question.**
+            Your message will be reviewed shortly by the Print Maker Lab team.`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Thank you for submitting your question. Your question will be reviewed shortly by the Print Maker Lab team.'
+              body: comment
             })
