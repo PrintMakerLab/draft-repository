@@ -1,7 +1,7 @@
 name: "Issue / New issue triage"
 on:
   issues:
-    types: [labeled, opened]
+    types: [opened]
 
 permissions:
   issues: write
