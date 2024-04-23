@@ -31,6 +31,7 @@ jobs:
           process-only: 'issues, prs'
           issue-inactive-days: 14
           add-issue-labels: "status: outdated"
+          remove-issue-labels: "status: inactive"
           issue-comment: > 
             This issue has been automatically locked since there
             has not been any recent activity after it was closed.
@@ -38,6 +39,7 @@ jobs:
           issue-lock-reason: 'resolved'
           pr-inactive-days: 14
           add-pr-labels: "status: outdated"
+          remove-pr-labels: "status: inactive"
           pr-comment: >
             This pull request has been automatically locked since there
             has not been any recent activity after it was closed.
